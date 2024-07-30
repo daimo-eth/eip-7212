@@ -40,28 +40,29 @@ contract P256Verifier {
         return abi.encodePacked(ret);
     }
 
-    // Parameters for the sec256r1 (P256) elliptic curve
-    // Curve prime field modulus
+    // Parameters for the secp256r1 (P256) elliptic curve
+    /// P256 curve prime field modulus
     uint256 private constant p =
         0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF;
-    // Short weierstrass first coefficient
+    /// Short weierstrass first coefficient
     uint256 private constant a = // The assumption a == -3 (mod p) is used throughout the codebase
         0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC;
-    // Short weierstrass second coefficient
+    /// Short weierstrass second coefficient
     uint256 private constant b =
         0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B;
-    // Generating point affine coordinates
+    /// Generating point affine x-coordinate
     uint256 private constant GX =
         0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296;
+    /// Generating point affine y-coordinate
     uint256 private constant GY =
         0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5;
-    // Curve order (number of points)
+    /// Curve order (number of points)
     uint256 private constant n =
         0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551;
-    // -2 mod p constant, used to speed up inversion and doubling (avoid negation)
+    /// -2 mod p constant, used to speed up inversion and doubling (avoid negation)
     uint256 private constant minus_2modp =
         0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFD;
-    // -2 mod n constant, used to speed up inversion
+    /// -2 mod n constant, used to speed up inversion
     uint256 private constant minus_2modn =
         0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC63254F;
 
@@ -98,8 +99,8 @@ contract P256Verifier {
     }
 
     /**
-     * @dev Check if a point in affine coordinates is on the curve
-     * Reject 0 point at infinity.
+     * @dev Check if a point in affine coordinates is on the curve.
+     * Reject the 0 point at infinity.
      */
     function ecAff_isValidPubkey(
         uint256 x,
@@ -109,13 +110,6 @@ contract P256Verifier {
             return false;
         }
 
-        return ecAff_satisfiesCurveEqn(x, y);
-    }
-
-    function ecAff_satisfiesCurveEqn(
-        uint256 x,
-        uint256 y
-    ) internal pure returns (bool) {
         uint256 LHS = mulmod(y, y, p); // y^2
         uint256 RHS = addmod(mulmod(mulmod(x, x, p), x, p), mulmod(a, x, p), p); // x^3 + a x
         RHS = addmod(RHS, b, p); // x^3 + a*x + b
@@ -124,9 +118,10 @@ contract P256Verifier {
     }
 
     /**
-     * @dev Computation of uG + vQ using Strauss-Shamir's trick, G basepoint, Q public key
-     * returns tuple of (x coordinate of uG + vQ, boolean that is false if internal precompile staticcall fail)
-     * Strauss-Shamir is described well in https://stackoverflow.com/a/50994362
+     * @dev Computation of uG + vQ using Strauss-Shamir's trick, G basepoint,
+     * Q public key. Strauss-Shamir is described well in the following post:
+     * https://stackoverflow.com/a/50994362
+     * @return X The x-coordinate of uG + vQ
      */
     function ecZZ_mulmuladd(
         uint256 QX,
@@ -243,8 +238,8 @@ contract P256Verifier {
     }
 
     /**
-     * @dev Check if a point is the infinity point in ZZ rep.
-     * Assumes point is on the EC or is the point at infinity.
+     * @dev Checks if a point is the infinity point in ZZ rep, using only the zz
+     * and zzz coordinates. Assumes the point is on the curve or at infinity.
      */
     function ecZZ_IsInf(
         uint256 zz,
@@ -252,7 +247,6 @@ contract P256Verifier {
     ) internal pure returns (bool flag) {
         // invariant((zz == 0 && zzz == 0) || ecAff_isOnCurve(x, y) for affine 
         // form of the point)
-
         return (zz == 0 && zzz == 0);
     }
 
