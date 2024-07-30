@@ -12,6 +12,8 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      FOUNDRY_GAS_LIMIT: 10000000000
     steps:
       - uses: actions/checkout@v3
         with:
@@ -23,11 +25,11 @@ jobs:
 
       - run: |
           forge --version
-          forge build --sizes
+          forge build --via-ir --sizes
         id: build
 
       - run: |
-          forge test -vv
+          forge test --via-ir -vv
           forge coverage --ir-minimum --report lcov
           git diff --exit-code
         id: test

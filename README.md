@@ -20,6 +20,7 @@ Our implementation was inspired by [Renaud Dubois/Ledger's FCL library](https://
 Available on any chain. If missing, see `deploy.sh`.
 
 Install with:
+
 - `forge install daimo-eth/p256-verifier`
 - add `p256-verifier/=lib/p256-verifier/src/` to remappings.txt
 
@@ -33,7 +34,7 @@ uint256 x, y; // public key
 bool valid = P256.verifySignature(hash, r, s, x, y);
 ```
 
-Alternately, calling `P256.verifySignatureAllowMalleability` ignores 
+Alternately, calling `P256.verifySignatureAllowMalleability` ignores
 malleability of signatures, matching the behavior specified by the NIST standard
 exactly.
 
@@ -51,7 +52,7 @@ Run `foundryup` to ensure you have the latest foundry. Then,
 ```
 git clone --recurse-submodules git@github.com:daimo-eth/p256-verifier
 cd p256-verifier
-forge test -vv
+forge test --via-ir -vv
 ```
 
 This runs test input and output handling as well as all applicable Wycheproof
@@ -87,7 +88,7 @@ npm test
 # Validate that all vectors also work with EIP-7212
 # Test the fallback contract...
 cd ..
-forge test -vv
+forge test --via-ir -vv
 
 # In future, execution spec and clients can test against the same clean vectors
 ```

@@ -5,8 +5,9 @@ import "./utils/Base64URL.sol";
 import "./P256.sol";
 
 /**
- * Helper library for external contracts to verify WebAuthn signatures.
- **/
+ * @dev Helper library for verify WebAuthn (aka passkey) signatures.
+ * @custom:security-contact security@daimo.com
+ */
 library WebAuthn {
     /// Checks whether prefix occurs in the beginning of str.
     function startsWith(
