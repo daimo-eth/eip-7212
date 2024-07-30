@@ -8,8 +8,9 @@ pragma solidity 0.8.21;
  * @custom:security-contact security@daimo.com
  **/
 library P256 {
-    address constant PRECOMPILE = address(0x100);
-    address constant VERIFIER = 0xc2b78104907F722DABAc4C69f826a522B2754De4;
+    address public constant PRECOMPILE = address(0x100);
+    address public constant VERIFIER =
+        0xc2b78104907F722DABAc4C69f826a522B2754De4;
 
     function verifySignatureAllowMalleability(
         bytes32 message_hash,

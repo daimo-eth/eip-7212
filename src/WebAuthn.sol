@@ -33,10 +33,10 @@ library WebAuthn {
         return true;
     }
 
-    bytes1 constant AUTH_DATA_FLAGS_UP = 0x01; // Bit 0
-    bytes1 constant AUTH_DATA_FLAGS_UV = 0x04; // Bit 2
-    bytes1 constant AUTH_DATA_FLAGS_BE = 0x08; // Bit 3
-    bytes1 constant AUTH_DATA_FLAGS_BS = 0x10; // Bit 4
+    bytes1 private constant AUTH_DATA_FLAGS_UP = 0x01; // Bit 0
+    bytes1 private constant AUTH_DATA_FLAGS_UV = 0x04; // Bit 2
+    bytes1 private constant AUTH_DATA_FLAGS_BE = 0x08; // Bit 3
+    bytes1 private constant AUTH_DATA_FLAGS_BS = 0x10; // Bit 4
 
     /// Verifies the authFlags in authenticatorData. Numbers in inline comment
     /// correspond to the same numbered bullets in
