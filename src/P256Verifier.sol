@@ -3,15 +3,16 @@
 pragma solidity 0.8.21;
 
 /**
- * This contract verifies P256 (secp256r1) signatures. It matches the exact
+ * @dev This contract verifies P256 (secp256r1) signatures. It matches the exact
  * interface specified in the EIP-7212 precompile, allowing it to be used as a
  * fallback. It's based on Ledger's optimized implementation:
  * https://github.com/rdubois-crypto/FreshCryptoLib/tree/master/solidity
- **/
+ * @custom:security-contact security@daimo.com
+ */
 contract P256Verifier {
     /**
-     * Precompiles don't use a function signature. The first byte of callldata
-     * is the first byte of an input argument. In this case:
+     * @dev Precompiles don't use a function signature. The first byte of
+     * calldata is the first byte of an input argument. In this case:
      *
      * input[  0: 32] = signed data hash
      * input[ 32: 64] = signature r

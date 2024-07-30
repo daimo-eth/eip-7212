@@ -2,9 +2,10 @@
 pragma solidity 0.8.21;
 
 /**
- * Helper library for external contracts to verify P256 signatures.
- * Tries to use RIP-7212 precompile if available on the chain, and if not falls
- * back to more expensive Solidity implementation.
+ * @dev Helper library to verify P256 signatures. Uses the RIP-7212 precompile
+ * if available. If unavailable (or if the signature is invalid), falls back to
+ * a more expensive Solidity implementation.
+ * @custom:security-contact security@daimo.com
  **/
 library P256 {
     address constant PRECOMPILE = address(0x100);
