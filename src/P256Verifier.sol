@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
-// Force a specific Solidity version for reproducibility.
-pragma solidity 0.8.21;
+pragma solidity ^0.8.21;
 
 /**
  * @dev This contract verifies P256 (secp256r1) signatures. It matches the exact

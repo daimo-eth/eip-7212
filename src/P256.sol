@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.21;
+pragma solidity ^0.8.21;
 
 /**
  * @dev Helper library to verify P256 signatures. Uses the RIP-7212 precompile
