@@ -2,13 +2,13 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": false,
-    "source.fixAll": true
+    "source.organizeImports": "never",
+    "source.fixAll": "explicit"
   },
   "editor.rulers": [80],
   "[solidity]": {
     "editor.defaultFormatter": "JuanBlanco.solidity"
   },
   "coverage-gutters.coverageFileNames": ["lcov.info"],
-  "solidity.compileUsingRemoteVersion": "v0.8.21+commit.d9974bed"
+  "solidity.compileUsingRemoteVersion": "v0.8.26+commit.8a97fa7a"
 }
