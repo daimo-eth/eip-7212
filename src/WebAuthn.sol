@@ -9,7 +9,9 @@ import "./P256.sol";
  * @custom:security-contact security@daimo.com
  */
 library WebAuthn {
-    /// Checks whether prefix occurs in the beginning of str.
+    /**
+     * @dev Checks whether prefix occurs in the beginning of str.
+     */
     function startsWith(
         string memory prefix,
         string memory str
@@ -33,14 +35,20 @@ library WebAuthn {
         return true;
     }
 
-    bytes1 private constant AUTH_DATA_FLAGS_UP = 0x01; // Bit 0
-    bytes1 private constant AUTH_DATA_FLAGS_UV = 0x04; // Bit 2
-    bytes1 private constant AUTH_DATA_FLAGS_BE = 0x08; // Bit 3
-    bytes1 private constant AUTH_DATA_FLAGS_BS = 0x10; // Bit 4
+    /// Bit mask: authData bit 0, indicating user presence
+    bytes1 private constant AUTH_DATA_FLAGS_UP = 0x01;
+    /// Bit mask: authData bit 2, indicating user verification
+    bytes1 private constant AUTH_DATA_FLAGS_UV = 0x04;
+    /// Bit mask: authData bit 3, indicating backup eligibility
+    bytes1 private constant AUTH_DATA_FLAGS_BE = 0x08;
+    /// Bit mask: authData bit 4, indicating backup state
+    bytes1 private constant AUTH_DATA_FLAGS_BS = 0x10;
 
-    /// Verifies the authFlags in authenticatorData. Numbers in inline comment
-    /// correspond to the same numbered bullets in
-    /// https://www.w3.org/TR/webauthn-2/#sctn-verifying-assertion.
+    /**
+     * @dev Verifies the authFlags in authenticatorData. Numbers in inline
+     * comment correspond to the same numbered bullets in the WebAuthn spec:
+     * https://www.w3.org/TR/webauthn-3/#sctn-authenticator-data
+     */
     function checkAuthFlags(
         bytes1 flags,
         bool requireUserVerification
@@ -72,8 +80,8 @@ library WebAuthn {
     }
 
     /**
-     * Verifies a Webauthn P256 signature (Authentication Assertion) as described
-     * in https://www.w3.org/TR/webauthn-2/#sctn-verifying-assertion. We do not
+     * @dev Verifies a Webauthn P256 signature (Authentication Assertion). See
+     * https://www.w3.org/TR/webauthn-2/#sctn-verifying-assertion. We do not
      * verify all the steps as described in the specification, only ones relevant
      * to our context. Please carefully read through this list before usage.
      * Specifically, we do verify the following:
@@ -152,7 +160,7 @@ library WebAuthn {
             return false;
         }
 
-        // Check that the public key signed sha256(authenticatorData || sha256(clientDataJSON))
+        // Signed message: sha256(authenticatorData || sha256(clientDataJSON))
         bytes32 clientDataJSONHash = sha256(bytes(clientDataJSON));
         bytes32 messageHash = sha256(
             abi.encodePacked(authenticatorData, clientDataJSONHash)
